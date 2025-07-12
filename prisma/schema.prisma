@@ -45,6 +45,7 @@ model Trainee {
   updatedAt DateTime @updatedAt
   // Relationships
   user     User      @relation(fields: [userId], references: [id])
+  bookings  Booking[]
   @@map("trainee")
 }
 
@@ -75,6 +76,28 @@ model Schedule {
   // Relationships with Trainer and Booking
   trainerId        String
   trainer          Trainer   @relation(fields: [trainerId], references: [id])
+
+  bookings         Booking[]
   @@map("schedule")
   @@index([trainerId])
+}
+
+
+model Booking {
+  id          String    @id @default(uuid())
+  bookingDate DateTime  @default(now())
+  isCanceled  Boolean   @default(false)
+  traineeId   String
+  scheduleId  String
+
+  trainee     Trainee   @relation(fields: [traineeId], references: [id])
+  schedule    Schedule @relation(fields: [scheduleId], references: [id])
+
+
+  @@unique([traineeId, scheduleId])
+  @@map("booking")
+
+
+  @@index([traineeId])
+  @@index([scheduleId])
 }

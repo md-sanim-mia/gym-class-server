@@ -152,6 +152,14 @@ exports.Prisma.ScheduleScalarFieldEnum = {
   trainerId: 'trainerId'
 };
 
+exports.Prisma.BookingScalarFieldEnum = {
+  id: 'id',
+  bookingDate: 'bookingDate',
+  isCanceled: 'isCanceled',
+  traineeId: 'traineeId',
+  scheduleId: 'scheduleId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -176,7 +184,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Trainee: 'Trainee',
   Trainer: 'Trainer',
-  Schedule: 'Schedule'
+  Schedule: 'Schedule',
+  Booking: 'Booking'
 };
 
 /**
