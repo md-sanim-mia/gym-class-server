@@ -1,6 +1,10 @@
 import prisma from "../../utils/prisma";
 
-const createBookingForDb = async (payload: any) => {
+const createBookingForDb = async (payload: any, userId: string) => {
+  const trainee = await prisma.trainee.findFirst({
+    where: { userId: userId },
+  });
+  const traineeId = trainee?.id as string;
   const schedule = await prisma.schedule.findUnique({
     where: { id: payload.scheduleId },
   });
@@ -17,7 +21,7 @@ const createBookingForDb = async (payload: any) => {
 
   const existingBookings = await prisma.booking.findMany({
     where: {
-      traineeId: payload.traineeId,
+      traineeId: traineeId,
     },
     include: {
       schedule: true,
@@ -50,7 +54,7 @@ const createBookingForDb = async (payload: any) => {
 
     const booking = await prisma.booking.create({
       data: {
-        traineeId: payload.traineeId,
+        traineeId: traineeId,
         scheduleId: payload.scheduleId,
       },
     });

@@ -1,8 +1,11 @@
+import { JwtPayload } from "jsonwebtoken";
 import asyncCatch from "../../utils/async.catch";
 import { BookingServices } from "./booking.service";
 
 const createBooking = asyncCatch(async (req, res) => {
-  const result = await BookingServices.createBookingForDb(req.body);
+  const user = req.user as JwtPayload;
+  const userId = user.userId as string;
+  const result = await BookingServices.createBookingForDb(req.body, userId);
   res.status(201).send({
     success: true,
     statusCode: 201,
