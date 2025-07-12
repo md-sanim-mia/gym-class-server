@@ -60,6 +60,21 @@ model Trainer {
   // Relationships with User and Schedule
   userId    String    @unique // Foreign key to User
   user      User      @relation(fields: [userId], references: [id])
-
+ schedules Schedule[]
   @@map("trainer")
+}
+
+// Class Schedule model
+model Schedule {
+  id               String    @id @default(uuid())
+  startTime        DateTime
+  endTime          DateTime
+  capacity         Int       @default(10) // Default capacity for classes
+  bookedTrainees   Int       @default(0) // Counter for current bookings
+
+  // Relationships with Trainer and Booking
+  trainerId        String
+  trainer          Trainer   @relation(fields: [trainerId], references: [id])
+  @@map("schedule")
+  @@index([trainerId])
 }

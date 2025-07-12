@@ -143,6 +143,15 @@ exports.Prisma.TrainerScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.ScheduleScalarFieldEnum = {
+  id: 'id',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  capacity: 'capacity',
+  bookedTrainees: 'bookedTrainees',
+  trainerId: 'trainerId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -166,7 +175,8 @@ exports.Role = exports.$Enums.Role = {
 exports.Prisma.ModelName = {
   User: 'User',
   Trainee: 'Trainee',
-  Trainer: 'Trainer'
+  Trainer: 'Trainer',
+  Schedule: 'Schedule'
 };
 
 /**
