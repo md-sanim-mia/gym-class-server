@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.get("/", (req: Request, res: Response) => {
   res.send({
-    message: "Template server is run ",
+    message: "gym class server is run ",
   });
 });
 
