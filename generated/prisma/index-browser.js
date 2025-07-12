@@ -134,6 +134,15 @@ exports.Prisma.TraineeScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TrainerScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  expertise: 'expertise',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -143,6 +152,11 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   TRAINER: 'TRAINER',
@@ -151,7 +165,8 @@ exports.Role = exports.$Enums.Role = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Trainee: 'Trainee'
+  Trainee: 'Trainee',
+  Trainer: 'Trainer'
 };
 
 /**

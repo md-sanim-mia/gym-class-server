@@ -25,6 +25,7 @@ model User {
 
   // Relationships
   trainee Trainee?
+  trainer   Trainer?
   @@map("user")
 }
 
@@ -45,4 +46,20 @@ model Trainee {
   // Relationships
   user     User      @relation(fields: [userId], references: [id])
   @@map("trainee")
+}
+
+
+// Trainer details (linked to User and Schedules)
+model Trainer {
+  id        String    @id @default(uuid())
+  name      String
+  expertise String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relationships with User and Schedule
+  userId    String    @unique // Foreign key to User
+  user      User      @relation(fields: [userId], references: [id])
+
+  @@map("trainer")
 }
