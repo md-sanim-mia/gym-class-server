@@ -1,13 +1,17 @@
 import express from "express";
-import app from "../../app";
-import { templateRouter } from "../exampole/exampole.route";
+import { userRouter } from "../modules/users/user.route";
+import { traineeRouter } from "../modules/trainee/trainee.route";
 
 const router = express.Router();
 
 const moduleRouters = [
   {
-    path: "/template",
-    route: templateRouter, // this is example of route use your route or pathe
+    path: "/users",
+    route: userRouter,
+  },
+  {
+    path: "/traines",
+    route: traineeRouter,
   },
 ];
 

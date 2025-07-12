@@ -13,3 +13,36 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model User {
+  id       String    @id @default(uuid())
+  email    String    @unique
+  password String
+  role     Role      // Enum: 'ADMIN', 'TRAINER', 'TRAINEE'
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  trainee Trainee?
+  @@map("user")
+}
+
+// Defines the roles of the users
+enum Role {
+  ADMIN
+  TRAINER
+  TRAINEE
+}
+
+// Trainee details (linked to User)
+model Trainee {
+  id       String    @id @default(uuid())
+  userId   String    @unique
+  name     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Relationships
+  user     User      @relation(fields: [userId], references: [id])
+  @@map("trainee")
+}
