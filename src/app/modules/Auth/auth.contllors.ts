@@ -1,4 +1,3 @@
-import { JwtPayload } from "jsonwebtoken";
 import httpStatus from "http-status";
 import sendResponse from "../../utils/send.response";
 import asyncCatch from "../../utils/async.catch";

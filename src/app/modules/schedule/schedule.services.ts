@@ -176,10 +176,22 @@ const deleteScheduleForDb = async (id: string) => {
   return deletedSchedule;
 };
 
+const myScheduleForDb = async (userId: string) => {
+  const trainer = await prisma.trainer.findFirst({ where: { userId: userId } });
+  if (!trainer) {
+    throw new Error("Trainer is not found !");
+  }
+  const result = await prisma.schedule.findMany({
+    where: { trainerId: trainer.id },
+  });
+
+  return result;
+};
 export const ScheduleServices = {
   createScheduleForDb,
   getAllSchedules,
   getSingleScheduleForDb,
   updateSingleScheduleForDb,
   deleteScheduleForDb,
+  myScheduleForDb,
 };

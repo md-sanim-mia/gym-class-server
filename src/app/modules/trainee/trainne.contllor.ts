@@ -1,7 +1,16 @@
 import { JwtPayload } from "jsonwebtoken";
 import asyncCatch from "../../utils/async.catch";
 import { TraineeServices } from "./trainee.services";
-
+const createdTrainee = asyncCatch(async (req, res) => {
+  const result = await TraineeServices.createTraineeForDb(req.body);
+  console.log(result);
+  res.status(200).send({
+    success: true,
+    statusCode: 201,
+    message: "Trainee succcess fully created",
+    data: result,
+  });
+});
 const getAllTrainees = asyncCatch(async (req, res) => {
   const result = await TraineeServices.getAllTraineeForDb();
   res.status(200).send({
@@ -39,4 +48,5 @@ export const Traineercontllors = {
   getAllTrainees,
   getSingleTrainees,
   updateSingleTrainees,
+  createdTrainee,
 };

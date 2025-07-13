@@ -64,6 +64,10 @@ const createBookingForDb = async (payload: any, userId: string) => {
 };
 
 const cancelBookingForDb = async (bookingId: string, userId: string) => {
+  const trainee = await prisma.trainee.findFirst({ where: { userId: userId } });
+  if (!trainee) {
+    throw new Error("Treainee is not found !");
+  }
   const booking = await prisma.booking.findUnique({
     where: {
       id: bookingId,
@@ -73,8 +77,9 @@ const cancelBookingForDb = async (bookingId: string, userId: string) => {
   if (!booking) {
     throw new Error("Booking not found.");
   }
+  console.log(booking);
 
-  if (booking.traineeId !== userId) {
+  if (booking.traineeId !== trainee.id) {
     throw new Error("Unauthorized access. You cannot cancel this booking.");
   }
   if (booking.isCanceled) {
@@ -107,11 +112,47 @@ const getAllBookings = async () => {
 };
 const getSingleBookingForDb = async (id: string) => {
   const result = await prisma.booking.findFirst({ where: { id: id } });
+
   return result;
 };
+
+const getMyBookingsForDb = async (userId: string) => {
+  const trainee = await prisma.trainee.findFirst({ where: { userId: userId } });
+
+  const bookings = await prisma.booking.findMany({
+    where: {
+      traineeId: trainee?.id,
+      isCanceled: false,
+    },
+    include: {
+      schedule: {
+        select: {
+          startTime: true,
+          endTime: true,
+          // Optionally include the trainer related to the schedule
+          trainer: {
+            select: {
+              name: true,
+              expertise: true,
+            },
+          },
+        },
+      },
+      trainee: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
+  return bookings;
+};
+
 export const BookingServices = {
   createBookingForDb,
   getAllBookings,
   getSingleBookingForDb,
   cancelBookingForDb,
+  getMyBookingsForDb,
 };

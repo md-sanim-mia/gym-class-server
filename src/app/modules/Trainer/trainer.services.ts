@@ -98,10 +98,31 @@ const updateSingleTrainersForDb = async (id: string, payload: any) => {
   return result;
 };
 const deleteSingleTrainerForDb = async (id: string) => {
-  const trainer = await prisma.trainer.findFirst({ where: { id: id } });
+  const trainer = await prisma.trainer.findFirst({
+    where: { id: id },
+    include: { schedules: true },
+  });
+  console.log(trainer);
+
+  if (!trainer) {
+    throw new Error("Trainer not found.");
+  }
+
+  if (trainer.schedules && trainer.schedules.length > 0) {
+    throw new Error(
+      "Cannot delete trainer. This trainer has existing schedules."
+    );
+  }
+
   const result = await prisma.$transaction(async (transactionClient) => {
-    await transactionClient.user.delete({ where: { id: trainer?.userId } });
-    await transactionClient.trainer.delete({ where: { id: id } });
+    const deletedTrainer = await transactionClient.trainer.delete({
+      where: { id: id },
+    });
+    const deletedUser = await transactionClient.user.delete({
+      where: { id: trainer.userId },
+    });
+
+    return { deletedTrainer, deletedUser };
   });
   return result;
 };

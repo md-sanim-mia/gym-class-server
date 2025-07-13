@@ -6,6 +6,7 @@ import { Role } from "../../../../generated/prisma";
 const route = express.Router();
 route.post("/", auth(Role.TRAINEE), BookingControllers.createBooking);
 route.get("/", auth(Role.ADMIN), BookingControllers.getAllBooking);
+route.get("/my-booking", auth(Role.TRAINEE), BookingControllers.myBooking);
 route.get(
   "/:id",
   auth(Role.TRAINEE, Role.ADMIN),

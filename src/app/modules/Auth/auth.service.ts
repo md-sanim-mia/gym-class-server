@@ -5,6 +5,7 @@ import prisma from "../../utils/prisma";
 import { createToken } from "../../utils/crateToken";
 import confing from "../../confing";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import httpStatus from "http-status";
 const logingUserForDb = async (payload: Partial<User>) => {
   if (!payload.email || !payload.password) {
     throw new ApiError(

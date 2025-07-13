@@ -10,6 +10,7 @@ route.get(
   auth(Role.ADMIN, Role.TRAINEE, Role.TRAINER),
   ScheduleControllers.getAllSchedule
 );
+route.get("/my-schedules", auth(Role.TRAINER), ScheduleControllers.mySchedules);
 route.get(
   "/:id",
   auth(Role.ADMIN, Role.TRAINEE, Role.TRAINER),

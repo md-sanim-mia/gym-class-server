@@ -4,7 +4,7 @@ import auth from "../../middlwares/auth";
 import { Role } from "../../../../generated/prisma";
 
 const route = express.Router();
-
+route.post("/", Traineercontllors.createdTrainee);
 route.get("/", auth(Role.ADMIN), Traineercontllors.getAllTrainees);
 
 route.get(

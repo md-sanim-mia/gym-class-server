@@ -1,3 +1,4 @@
+import { JwtPayload } from "jsonwebtoken";
 import asyncCatch from "../../utils/async.catch";
 import { ScheduleServices } from "./schedule.services";
 
@@ -51,7 +52,18 @@ const deleteSingleSchedule = asyncCatch(async (req, res) => {
   res.status(200).send({
     success: true,
     statusCode: 200,
-    message: "update Single schedule for the db",
+    message: "deleted Single schedule for the db",
+    data: null,
+  });
+});
+const mySchedules = asyncCatch(async (req, res) => {
+  const { userId } = req.user as JwtPayload;
+  const result = await ScheduleServices.myScheduleForDb(userId);
+
+  res.status(200).send({
+    success: true,
+    statusCode: 200,
+    message: "Get my all schedules for the db",
     data: result,
   });
 });
@@ -62,4 +74,5 @@ export const ScheduleControllers = {
   getSingleSchedule,
   updateSingleSchedule,
   deleteSingleSchedule,
+  mySchedules,
 };

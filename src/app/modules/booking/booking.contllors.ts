@@ -28,7 +28,6 @@ const getAllBooking = asyncCatch(async (req, res) => {
 const getSingleBooking = asyncCatch(async (req, res) => {
   const { id } = req.params;
   const result = await BookingServices.getSingleBookingForDb(id);
-
   res.status(200).send({
     success: true,
     statusCode: 200,
@@ -38,13 +37,23 @@ const getSingleBooking = asyncCatch(async (req, res) => {
 });
 const cancelBooking = asyncCatch(async (req, res) => {
   const { id } = req.params;
-  const { userId } = req.params;
+  const { userId } = req.user as JwtPayload;
   const result = await BookingServices.cancelBookingForDb(id, userId);
 
   res.status(200).send({
     success: true,
     statusCode: 200,
-    message: "Single Booking retrieved",
+    message: "Your Booking is canceled",
+    data: result,
+  });
+});
+const myBooking = asyncCatch(async (req, res) => {
+  const { userId } = req.user as JwtPayload;
+  const result = await BookingServices.getMyBookingsForDb(userId);
+  res.status(200).send({
+    success: true,
+    statusCode: 200,
+    message: "My bookings fetched successfully",
     data: result,
   });
 });
@@ -54,4 +63,5 @@ export const BookingControllers = {
   getAllBooking,
   getSingleBooking,
   cancelBooking,
+  myBooking,
 };
