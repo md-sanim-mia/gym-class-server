@@ -1,3 +1,30 @@
-node_modules
-# Keep environment variables out of version control
+
+# Node modules and build artifacts
+node_modules/
+dist/
+build/
+
+# Environment variables
+# This file contains sensitive information like database connection strings and JWT secrets
 .env
+.env.local
+
+# Prisma specific files
+# This is where Prisma generates the client and debug logs
+prisma/
+prisma/generated/
+.prisma/
+prisma/migrations/
+
+# Logs and temporary files
+npm-debug.log*
+yarn-error.log*
+.log/
+
+# IDE files (e.g., VS Code)
+.vscode/
+.idea/
+.DS_Store
+
+# Test reports
+coverage/

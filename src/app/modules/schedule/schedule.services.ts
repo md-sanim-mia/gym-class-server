@@ -1,6 +1,7 @@
+import { Schedule } from "../../../../generated/prisma";
 import prisma from "../../utils/prisma";
 
-const createScheduleForDb = async (payload: any) => {
+const createScheduleForDb = async (payload: Partial<Schedule>) => {
   const { trainerId, startTime, endTime } = payload;
 
   if (!trainerId || !startTime || !endTime) {
