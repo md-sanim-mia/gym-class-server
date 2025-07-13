@@ -25,6 +25,7 @@ The system handles class scheduling, trainee booking, and user management, enfor
 - **Email:** admin@gymclass.com
 - **Password:** admin1234
 - **live link** https://gym-class-server-three.vercel.app
+- **postman** https://surli.cc/psdhfg
 
 ---
 
@@ -240,3 +241,31 @@ Trainees can manage their own profiles, while Admins can view and manage all tra
 }
 ```
 ````
+
+## How to Clone and Run Locally
+
+If you want to clone this project and run it on your local machine, please follow the steps below carefully:
+
+### 1. Clone the repository
+
+### 2. connecation your local database
+
+#### DATABASE_URL="your local data base link"
+
+#### JWT_SECRET=
+
+#### JWT_REFRESH_SECRET=
+
+#### JWT_EXPIRES_IN=
+
+#### REFRESH_EXPIRES_IN=
+
+#### npm run i
+
+#### npm run dev
+
+#### npm run build
+
+#### npx prisma migrate dev
+
+#### npx prisma studio
