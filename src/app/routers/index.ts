@@ -22,11 +22,11 @@ const moduleRouters = [
     route: TrainerRouter,
   },
   {
-    path: "/schedule",
+    path: "/schedules",
     route: scheduleRoute,
   },
   {
-    path: "/booking",
+    path: "/bookings",
     route: BookingRoute,
   },
   {
