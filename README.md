@@ -24,6 +24,7 @@ The system handles class scheduling, trainee booking, and user management, enfor
 
 - **Email:** admin@gymclass.com
 - **Password:** admin1234
+- **live link** https://gym-class-server-three.vercel.app
 
 ---
 
