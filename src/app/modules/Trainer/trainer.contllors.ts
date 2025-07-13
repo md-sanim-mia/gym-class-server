@@ -30,9 +30,31 @@ const getSingleTrainer = asyncCatch(async (req, res) => {
     data: result,
   });
 });
+const updateSingleTrainer = asyncCatch(async (req, res) => {
+  const { id } = req.params;
+  const result = await TrainerServices.updateSingleTrainersForDb(id, req.body);
+  res.status(200).send({
+    success: true,
+    statusCode: 201,
+    message: "updated the single Trainer",
+    data: result,
+  });
+});
+const deleteSingleTrainer = asyncCatch(async (req, res) => {
+  const { id } = req.params;
+  const result = await TrainerServices.deleteSingleTrainerForDb(id);
+  res.status(200).send({
+    success: true,
+    statusCode: 201,
+    message: "delte the single Trainer",
+    data: null,
+  });
+});
 
 export const Trainercontllors = {
   createTrainer,
   getAllTrainer,
   getSingleTrainer,
+  updateSingleTrainer,
+  deleteSingleTrainer,
 };

@@ -29,7 +29,7 @@ const createTrainerForDb = async (paylood: any) => {
   };
   const trainerData = {
     name: paylood.name,
-    expertise:paylood.expertise
+    expertise: paylood.expertise,
   };
 
   const result = await prisma.$transaction(async (transactionClient) => {
@@ -81,8 +81,34 @@ const getSingleTrainersForDb = async (id: string) => {
 
   return result;
 };
+const updateSingleTrainersForDb = async (id: string, payload: any) => {
+  const result = await prisma.trainer.update({
+    where: { id: id },
+    data: payload,
+    select: {
+      id: true,
+      name: true,
+      createdAt: true,
+      updatedAt: true,
+      userId: true,
+      expertise: true,
+    },
+  });
+
+  return result;
+};
+const deleteSingleTrainerForDb = async (id: string) => {
+  const trainer = await prisma.trainer.findFirst({ where: { id: id } });
+  const result = await prisma.$transaction(async (transactionClient) => {
+    await transactionClient.user.delete({ where: { id: trainer?.userId } });
+    await transactionClient.trainer.delete({ where: { id: id } });
+  });
+  return result;
+};
 export const TrainerServices = {
   createTrainerForDb,
   getAllTrainersForDb,
   getSingleTrainersForDb,
+  updateSingleTrainersForDb,
+  deleteSingleTrainerForDb,
 };

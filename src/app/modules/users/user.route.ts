@@ -1,9 +1,15 @@
 import express from "express";
 import { usercontllors } from "./user.contllor";
+import auth from "../../middlwares/auth";
+import { Role } from "../../../../generated/prisma";
 const route = express.Router();
 
 route.post("/", usercontllors.createUser);
-route.get("/", usercontllors.getAllUsers);
-route.get("/:id", usercontllors.getSingleUsers);
+route.get("/", auth(Role.ADMIN), usercontllors.getAllUsers);
+route.get(
+  "/:id",
+  auth(Role.ADMIN, Role.TRAINEE, Role.TRAINER),
+  usercontllors.getSingleUsers
+);
 
 export const userRouter = route;

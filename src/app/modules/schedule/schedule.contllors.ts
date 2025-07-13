@@ -33,9 +33,33 @@ const getSingleSchedule = asyncCatch(async (req, res) => {
     data: result,
   });
 });
+const updateSingleSchedule = asyncCatch(async (req, res) => {
+  const { id } = req.params;
+  const result = await ScheduleServices.updateSingleScheduleForDb(id, req.body);
+
+  res.status(200).send({
+    success: true,
+    statusCode: 200,
+    message: "update Single schedule for the db",
+    data: result,
+  });
+});
+const deleteSingleSchedule = asyncCatch(async (req, res) => {
+  const { id } = req.params;
+  const result = await ScheduleServices.deleteScheduleForDb(id);
+
+  res.status(200).send({
+    success: true,
+    statusCode: 200,
+    message: "update Single schedule for the db",
+    data: result,
+  });
+});
 
 export const ScheduleControllers = {
   createSchedule,
   getAllSchedule,
   getSingleSchedule,
+  updateSingleSchedule,
+  deleteSingleSchedule,
 };
