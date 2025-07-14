@@ -33,8 +33,8 @@ The system handles class scheduling, trainee booking, and user management, enfor
 
 This project follows a **Modular Pattern** architecture, structuring the application by feature domains (e.g., Auth, User, Trainer, Schedule, Booking).
 
-**Relational Diagram:**
-[Insert Link or Image of the Relational Diagram here]
+**Relational Diagram:** https://dbdiagram.io/d/68748a5cf413ba3508aed832
+
 
 ---
 
