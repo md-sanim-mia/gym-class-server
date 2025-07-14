@@ -45,56 +45,91 @@ The system utilizes the following models for managing users and gym operations.
 ````prisma
 // Example Schema structure (replace with your actual schema definitions)
 
-enum Role {
-    ADMIN
-    TRAINER
-    TRAINEE
-}
-
 model User {
-    id       String  @id @default(uuid())
-    email    String  @unique
-    password String
-    role     Role
-    // Relationship to Trainer/Trainee models
-    trainer  Trainer?
-    trainee  Trainee?
+  id       String    @id @default(uuid())
+  email    String    @unique
+  password String
+  role     Role      // Enum: 'ADMIN', 'TRAINER', 'TRAINEE'
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  trainee Trainee?
+  trainer   Trainer?
+  @@map("user")
 }
 
-model Trainer {
-    id        String    @id @default(uuid())
-    name      String
-    userId    String    @unique
-    user      User      @relation(fields: [userId], references: [id])
-    schedules Schedule[]
+// Defines the roles of the users
+enum Role {
+  ADMIN
+  TRAINER
+  TRAINEE
 }
 
+// Trainee details (linked to User)
 model Trainee {
-    id     String @id @default(uuid())
-    name   String
-    userId String @unique
-    user   User   @relation(fields: [userId], references: [id])
-    bookings Booking[]
+  id       String    @id @default(uuid())
+  userId   String    @unique
+  name     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Relationships
+  user     User      @relation(fields: [userId], references: [id])
+  bookings  Booking[]
+  @@map("trainee")
 }
 
-model Schedule {
-    id        String   @id @default(uuid())
-    startTime DateTime
-    endTime   DateTime
-    duration  Int      // 2 hours
-    capacity  Int      // 10 trainees max
-    trainerId String
-    trainer   Trainer  @relation(fields: [trainerId], references: [id])
-    bookings  Booking[]
+
+// Trainer details (linked to User and Schedules)
+model Trainer {
+  id        String    @id @default(uuid())
+  name      String
+  expertise String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relationships with User and Schedule
+  userId    String    @unique // Foreign key to User
+  user      User      @relation(fields: [userId], references: [id])
+ schedules Schedule[]
+  @@map("trainer")
 }
+
+// Class Schedule model
+model Schedule {
+  id               String    @id @default(uuid())
+  startTime        DateTime
+  endTime          DateTime
+  capacity         Int       @default(10) // Default capacity for classes
+  bookedTrainees   Int       @default(0) // Counter for current bookings
+
+  // Relationships with Trainer and Booking
+  trainerId        String
+  trainer          Trainer   @relation(fields: [trainerId], references: [id])
+
+  bookings         Booking[]
+  @@map("schedule")
+  @@index([trainerId])
+}
+
 
 model Booking {
-    id          String   @id @default(uuid())
-    traineeId   String
-    trainee     Trainee  @relation(fields: [traineeId], references: [id])
-    scheduleId  String
-    schedule    Schedule @relation(fields: [scheduleId], references: [id])
-    createdAt   DateTime @default(now())
+  id          String    @id @default(uuid())
+  bookingDate DateTime  @default(now())
+  isCanceled  Boolean   @default(false)
+  traineeId   String
+  scheduleId  String
+
+  trainee     Trainee   @relation(fields: [traineeId], references: [id])
+  schedule    Schedule @relation(fields: [scheduleId], references: [id])
+
+
+  @@unique([traineeId, scheduleId])
+  @@map("booking")
+
+
+  @@index([traineeId])
+  @@index([scheduleId])
 }
 
 ## API Endpoints
